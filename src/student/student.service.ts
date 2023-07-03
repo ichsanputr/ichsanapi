@@ -1,15 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Student } from './student.entity';
 import { paramAllStudentDTO, paramUpdateStudentDTO } from './dto/student.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class StudentService {
   constructor(
     @Inject('STUDENT_REPOSITORY') private readonly studentRepository: typeof Student,
-  ) {}
+    private readonly mailerService: MailerService
+  ) { }
 
   async getAllStudent(query: paramAllStudentDTO): Promise<Student[]> {
-    if (query.school_id != null && query.class_id == null){
+    if (query.school_id != null && query.class_id == null) {
       return await this.studentRepository.findAll<Student>({
         where: {
           school_id: query.school_id
@@ -17,7 +19,7 @@ export class StudentService {
       });
     }
 
-    if (query.school_id == null && query.class_id != null){
+    if (query.school_id == null && query.class_id != null) {
       return await this.studentRepository.findAll<Student>({
         where: {
           class_id: query.class_id
@@ -25,7 +27,7 @@ export class StudentService {
       });
     }
 
-    if (query.school_id != null && query.class_id != null){
+    if (query.school_id != null && query.class_id != null) {
       return await this.studentRepository.findAll<Student>({
         where: {
           class_id: query.class_id,
@@ -57,11 +59,27 @@ export class StudentService {
     })
   }
 
-  async updateStudent(data: paramUpdateStudentDTO): Promise<[affectedNumber: number]>{
+  async updateStudent(data: paramUpdateStudentDTO): Promise<[affectedNumber: number]> {
     return await this.studentRepository.update(data, {
       where: {
         id: data.id
       }
     })
+  }
+
+  async sendStudentEmail() {
+    let resp = await this.mailerService
+      .sendMail({
+        to: 'iniasya1@gmail.com', // list of receivers
+        from: 'ichsanfadhil67@gmail.com', // sender address
+        subject: 'Testing Nest MailerModule ✔', // Subject line
+        text: 'welcome',
+        template: './otp',
+        context: {
+          halo: "ichsan"
+        }
+      })
+    
+    console.log(resp)
   }
 }

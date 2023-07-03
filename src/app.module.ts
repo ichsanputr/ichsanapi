@@ -11,9 +11,9 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), 
-    DatabaseModule, 
-    StudentModule, 
+    ConfigModule.forRoot(),
+    DatabaseModule,
+    StudentModule,
     ClassModule,
     SchoolModule,
     UserModule,
@@ -22,4 +22,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [AuthService]
 })
-export class AppModule {}
+export class AppModule { }

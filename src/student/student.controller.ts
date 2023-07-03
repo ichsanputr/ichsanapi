@@ -19,11 +19,22 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @ApiTags('Student')
 @Controller('student')
 @ApiBearerAuth('jwtToken')
-@UseGuards(AuthGuard)
 export class StudentController {
   constructor(
     private readonly studentService: StudentService
   ) {}
+
+  @Get('/email')
+  @ApiOperation({
+    summary: 'Get all student from email'
+  })
+  async allStudentEmail(@Res() res: Response){
+    let resp = await this.studentService.sendStudentEmail()
+
+    res.status(200).send({
+      message: 'Succesfully update the data'
+    })
+  }
 
   @Get('/')
   @ApiOkResponse({

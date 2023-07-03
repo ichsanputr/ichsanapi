@@ -13,7 +13,6 @@ import {
 @Controller('class')
 @ApiTags('Class')
 @ApiBearerAuth('jwtToken')
-@UseGuards(AuthGuard)
 export class ClassController {
   constructor(private readonly classService: ClassService){}
 

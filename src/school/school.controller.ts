@@ -16,7 +16,6 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @Controller('school')
 @ApiTags('School')
 @ApiBearerAuth('jwtToken')
-@UseGuards(AuthGuard)
 export class SchoolController {
   constructor(
     private readonly schoolService: SchoolService
