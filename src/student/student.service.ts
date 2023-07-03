@@ -1,13 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Student } from './student.entity';
 import { paramAllStudentDTO, paramUpdateStudentDTO } from './dto/student.dto';
-import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class StudentService {
   constructor(
     @Inject('STUDENT_REPOSITORY') private readonly studentRepository: typeof Student,
-    private readonly mailerService: MailerService
   ) { }
 
   async getAllStudent(query: paramAllStudentDTO): Promise<Student[]> {
@@ -65,21 +63,5 @@ export class StudentService {
         id: data.id
       }
     })
-  }
-
-  async sendStudentEmail() {
-    let resp = await this.mailerService
-      .sendMail({
-        to: 'iniasya1@gmail.com', // list of receivers
-        from: 'ichsanfadhil67@gmail.com', // sender address
-        subject: 'Testing Nest MailerModule ✔', // Subject line
-        text: 'welcome',
-        template: './otp',
-        context: {
-          halo: "ichsan"
-        }
-      })
-    
-    console.log(resp)
   }
 }

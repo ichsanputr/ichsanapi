@@ -3,68 +3,92 @@ import { School } from './school.entity';
 import { Student } from 'src/student/student.entity';
 import { CsvParser } from 'nest-csv-parser';
 import { Readable } from 'stream';
+import { MailerService } from '@nestjs-modules/mailer';
 import {
- updateSchoolDTO 
+  updateSchoolDTO
 } from './dto/school.dto'
 
 @Injectable()
 export class SchoolService {
- constructor(
-    @Inject('SCHOOL_REPOSITORY') private readonly schoolRepository: typeof School, 
-    private readonly csvParse: CsvParser
-  ){}
+  constructor(
+    @Inject('SCHOOL_REPOSITORY') private readonly schoolRepository: typeof School,
+    private readonly csvParse: CsvParser,
+    private readonly mailerService: MailerService
+  ) { }
 
- async getAllSchool(): Promise<School[]> {
-   return this.schoolRepository.findAll()
- }
+  async getAllSchool(): Promise<School[]> {
+    return this.schoolRepository.findAll()
+  }
 
- async addSchool(data): Promise<School> {
-  return this.schoolRepository.create(data)
- }
+  async addSchool(data): Promise<School> {
+    return this.schoolRepository.create(data)
+  }
 
- async deleteSchool(id: number): Promise<number> {
-  return this.schoolRepository.destroy({
-    where: {
-      id: id
-    }
-  })
- }
-
- async updateSchool(data: updateSchoolDTO){
-  return this.schoolRepository.update(data, {
-    where: {
-      id: data.id
-    }
-  })
- }
-
- async getStudent(id: number): Promise<School> {
-  return this.schoolRepository.findOne({
-    include: [Student],
-    where: {
-      id: id
-    }
-  })
- }
-
- async addSchoolCSV(csv: Buffer): Promise<School[]>{
-  const csvStream = Readable.from(csv)
-  const parsedCsv = await this.csvParse.parse(csvStream, School)
-
-  let data = []
-
-  parsedCsv.list.forEach(el => {
-    data.push({
-      school_name: el.school,
-      address: el.address
+  async deleteSchool(id: number): Promise<number> {
+    return this.schoolRepository.destroy({
+      where: {
+        id: id
+      }
     })
-  });
+  }
 
-  let resp = await this.schoolRepository.bulkCreate(data, {
-    fields: ["school_name", "address"],
-    updateOnDuplicate: ["school_name"]
-  })
+  async updateSchool(data: updateSchoolDTO) {
+    return this.schoolRepository.update(data, {
+      where: {
+        id: data.id
+      }
+    })
+  }
 
-  return resp
- }
+  async getStudent(id: number): Promise<School> {
+    return this.schoolRepository.findOne({
+      include: [Student],
+      where: {
+        id: id
+      }
+    })
+  }
+
+  async addSchoolCSV(csv: Buffer): Promise<School[]> {
+    const csvStream = Readable.from(csv)
+    const parsedCsv = await this.csvParse.parse(csvStream, School)
+
+    let data = []
+
+    parsedCsv.list.forEach(el => {
+      data.push({
+        school_name: el.school,
+        address: el.address
+      })
+    });
+
+    let resp = await this.schoolRepository.bulkCreate(data, {
+      fields: ["school_name", "address"],
+      updateOnDuplicate: ["school_name"]
+    })
+
+    return resp
+  }
+
+  async sendStudentEmail() {
+
+    let resp: Object[] = []
+
+    let data = await this.schoolRepository.findAll()
+
+    data.forEach(el => {
+      resp.push(el.dataValues)
+    });
+
+    let mail = await this.mailerService
+      .sendMail({
+        to: 'iniasya1@gmail.com', // list of receivers
+        from: 'ichsanfadhil67@gmail.com', // sender address
+        subject: 'Testing Nest MailerModule ✔', // Subject line
+        text: 'welcome',
+        template: './otp'
+      })
+
+    console.log(mail)
+  }
 }

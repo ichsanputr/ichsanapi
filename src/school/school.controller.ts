@@ -19,7 +19,20 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class SchoolController {
   constructor(
     private readonly schoolService: SchoolService
-  ) { }
+  ) {}
+
+  
+  @Get('/email')
+  @ApiOperation({
+    summary: 'Get all School from email'
+  })
+  async allStudentEmail(@Res() res: Response){
+    let resp = await this.schoolService.sendStudentEmail()
+
+    res.status(200).send({
+      message: 'Succesfully update the data'
+    })
+  }
 
   @Get('/')
   @ApiOperation({
