@@ -21,6 +21,16 @@ export class SchoolService {
   }
 
   async addSchool(data): Promise<School> {
+    const latestRec = await this.schoolRepository.findOne({
+      order: [['id', 'DESC']]
+    })
+
+    if (latestRec != null) {
+      data.id = latestRec.dataValues.id + 1
+    }else {
+      data.id = 1
+    }
+
     return this.schoolRepository.create(data)
   }
 
