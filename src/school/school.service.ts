@@ -7,6 +7,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import {
   updateSchoolDTO
 } from './dto/school.dto'
+import { SESClient, VerifyEmailIdentityCommand } from "@aws-sdk/client-ses"; // ES Modules import
 
 @Injectable()
 export class SchoolService {
@@ -68,27 +69,5 @@ export class SchoolService {
     })
 
     return resp
-  }
-
-  async sendStudentEmail() {
-
-    let resp: Object[] = []
-
-    let data = await this.schoolRepository.findAll()
-
-    data.forEach(el => {
-      resp.push(el.dataValues)
-    });
-
-    let mail = await this.mailerService
-      .sendMail({
-        to: 'iniasya1@gmail.com', // list of receivers
-        from: 'ichsanfadhil67@gmail.com', // sender address
-        subject: 'Testing Nest MailerModule ✔', // Subject line
-        text: 'welcome',
-        template: './otp'
-      })
-
-    console.log(mail)
   }
 }

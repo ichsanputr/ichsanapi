@@ -8,18 +8,22 @@ import { SchoolModule } from './school/school.module';
 import { UserModule } from './user/user.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     DatabaseModule,
     StudentModule,
     ClassModule,
     SchoolModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AuthService]
 })
-export class AppModule { }
+export class AppModule {}

@@ -11,11 +11,11 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
   imports: [DatabaseModule, CsvModule,
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.sendgrid.net',
-        secure: true,
+        host: 'email-smtp.us-east-1.amazonaws.com',
+        secure: false,
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
+          user: 'AKIA43QSMF6KNJXLUDPN',
+          pass: 'BJ6LkHFAV2KXeTlZ6czEOy0ip+Urq/dlpkQZgl4lTh1r',
         },
       },
       template: {
