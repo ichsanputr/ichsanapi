@@ -10,7 +10,7 @@ export const MailProviders = [
     provide: 'SES_CLIENT',
     useFactory: async () => {
       const ses = new SESClient({
-        region: process.env.AWS_REGION,
+        region: 'us-east-1',
         credentials: {
           accessKeyId: process.env.AWS_ACCESS,
           secretAccessKey: process.env.AWS_SECRET
