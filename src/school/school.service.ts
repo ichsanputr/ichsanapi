@@ -7,7 +7,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import {
   updateSchoolDTO
 } from './dto/school.dto'
-import { SESClient, VerifyEmailIdentityCommand } from "@aws-sdk/client-ses"; // ES Modules import
 
 @Injectable()
 export class SchoolService {

@@ -12,7 +12,6 @@ export class MailController {
     constructor(private readonly userService: MailService) { }
 
     @Post('/quote')
-    @ApiExcludeEndpoint()
     @ApiOperation({
         summary: "Get random quote to your email"
     })
