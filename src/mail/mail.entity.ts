@@ -1,8 +1,7 @@
 import { Model, Table } from "sequelize-typescript";
 
 @Table({
-    tableName: 'mail',
-    initialAutoIncrement: '1'
+    tableName: 'mail'
 })
 export class Mail extends Model{
 }

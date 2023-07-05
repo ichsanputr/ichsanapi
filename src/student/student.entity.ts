@@ -3,14 +3,13 @@ import { Class } from '../class/class.entity';
 import { School } from 'src/school/school.entity';
 
 @Table({
-  tableName: 'student',
-  initialAutoIncrement: '1'
+  tableName: 'student'
 })
 export class Student extends Model {
 
   @Column({
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: false,
     unique: true,
     type: DataType.TINYINT,
   })

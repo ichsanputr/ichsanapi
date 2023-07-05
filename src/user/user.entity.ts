@@ -1,14 +1,13 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 @Table({
-    tableName: 'user',
-    initialAutoIncrement: '1'
+    tableName: 'user'
 })
 export class User extends Model{
     @Column({
         type: DataType.TINYINT,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: false,
         unique: true
     })
     id: number

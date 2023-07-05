@@ -1,7 +1,7 @@
 import { Get, Res, Controller, Post, Body } from '@nestjs/common'
 import { MailService } from './mail.service';
 import { Response } from 'express';
-import { ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { paramQuoteDTO, paramRegisterDTO } from './dto/mail.dto';
 import { UseGuards } from '@nestjs/common';
