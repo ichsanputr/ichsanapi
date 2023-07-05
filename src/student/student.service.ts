@@ -46,6 +46,16 @@ export class StudentService {
   }
 
   async addStudent(data): Promise<Student> {
+    const latestRec = await this.studentRepository.findOne({
+      order: [['id', 'DESC']]
+    })
+
+    if (latestRec != null) {
+      data.id = latestRec.dataValues.id + 1
+    } else {
+      data.id = 1
+    }
+
     return await this.studentRepository.create(data)
   }
 

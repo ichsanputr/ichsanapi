@@ -19,6 +19,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @ApiTags('Student')
 @Controller('student')
 @ApiBearerAuth('jwtToken')
+@UseGuards(AuthGuard)
 export class StudentController {
   constructor(
     private readonly studentService: StudentService

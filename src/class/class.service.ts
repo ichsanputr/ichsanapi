@@ -5,13 +5,23 @@ import { paramClassUpdateDTO } from './dto/class.dto';
 
 @Injectable()
 export class ClassService {
-    constructor(@Inject('CLASS_REPOSITORY') private readonly classRepository: typeof Class){}
+    constructor(@Inject('CLASS_REPOSITORY') private readonly classRepository: typeof Class) { }
 
-    async getAllClass(): Promise<Class[]>{
+    async getAllClass(): Promise<Class[]> {
         return await this.classRepository.findAll()
     }
 
-    async addClass(data){
+    async addClass(data) {
+        const latestRec = await this.classRepository.findOne({
+            order: [['id', 'DESC']]
+        })
+
+        if (latestRec != null) {
+            data.id = latestRec.dataValues.id + 1
+        } else {
+            data.id = 1
+        }
+
         return await this.classRepository.create(data)
     }
 
@@ -32,7 +42,7 @@ export class ClassService {
         })
     }
 
-    async updateClass(body: paramClassUpdateDTO): Promise<[affectedCount: number]>{
+    async updateClass(body: paramClassUpdateDTO): Promise<[affectedCount: number]> {
         return await this.classRepository.update(body, {
             where: {
                 id: body.id

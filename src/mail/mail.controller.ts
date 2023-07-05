@@ -4,10 +4,12 @@ import { Response } from 'express';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { paramQuoteDTO, paramRegisterDTO } from './dto/mail.dto';
+import { UseGuards } from '@nestjs/common';
 
 @ApiTags('Mail')
 @Controller('mail')
 @ApiBearerAuth('jwtToken')
+@UseGuards(AuthGuard)
 export class MailController {
     constructor(private readonly userService: MailService) { }
 
