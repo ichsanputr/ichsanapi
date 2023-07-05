@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Mail } from './mail.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -9,7 +8,6 @@ import { paramRegisterDTO } from './dto/mail.dto';
 @Injectable()
 export class MailService {
     constructor(
-        @Inject('MAIL_REPOSITORY') private readonly userRepository: typeof Mail,
         private readonly mailerService: MailerService,
         private readonly httpService: HttpService,
         @Inject('SES_CLIENT') private readonly SES: SESClient
@@ -20,7 +18,7 @@ export class MailService {
 
         let _ = await this.mailerService
             .sendMail({
-                to: 'iniasya1@gmail.com',
+                to: email,
                 from: 'ichsanfadhil67@gmail.com',
                 subject: 'Quote for Today ✔',
                 text: data.quote

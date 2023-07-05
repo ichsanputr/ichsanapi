@@ -1,11 +1,6 @@
-import { Mail } from './mail.entity';
 import { SESClient } from '@aws-sdk/client-ses';
 
 export const MailProviders = [
-  {
-    provide: 'MAIL_REPOSITORY',
-    useValue: Mail,
-  },
   {
     provide: 'SES_CLIENT',
     useFactory: async () => {

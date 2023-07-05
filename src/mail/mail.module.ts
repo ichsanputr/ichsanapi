@@ -23,7 +23,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
             })
         })
     ],
-    exports: [MailService],
     controllers: [MailController],
     providers: [MailService, ...MailProviders]
 })
